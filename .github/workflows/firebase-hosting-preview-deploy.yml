@@ -1,0 +1,26 @@
+on:
+  push:
+    branches:
+      - "*" # matches every branch that doesn't contain a '/'
+      - "*/*" # matches every branch containing a single '/'
+      - "**" # matches every branch
+      - "!master" # excludes master
+
+name: 🚀 Deploy preview website on push
+jobs:
+    build_and_deploy:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - name: Set output
+          id: vars
+          run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
+        - uses: actions/checkout@v3
+        - run: npm ci && npm run build
+        - uses: FirebaseExtended/action-hosting-deploy@v0
+          with:
+            repoToken: '${{ secrets.GITHUB_TOKEN }}'
+            firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_INDUSTRIALPMR }}'
+            channelId: ${{ steps.vars.outputs.short_ref }}
+            projectId: industrialpmr
+            expires: 30d

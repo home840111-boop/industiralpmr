@@ -1,0 +1,12 @@
+.p-treetable-tbody
+  > tr:has(> td > button[style="margin-left: 0px; visibility: visible;"]) {
+  font-weight: 700;
+  opacity: 0.8;
+  font-size: 1.05em;
+}
+.p-treetable-tbody
+  > tr:has(> td > button[style="margin-left: 16px; visibility: visible;"]) {
+  font-weight: 600;
+  opacity: 0.8;
+  font-size: 1.05em;
+}
